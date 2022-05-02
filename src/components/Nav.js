@@ -85,6 +85,26 @@ const Nav = () => {
             </ListItemIcon>
             <ListItemText primary="Home" />
           </ListItemButton>
+          <header>Categories</header>
+          <ListItemButton component={Link} to="/guitars">
+            <ListItemIcon>
+              <AccountCircle />
+            </ListItemIcon>
+            <ListItemText primary="Guitars" />
+          </ListItemButton>
+          <ListItemButton component={Link} to="/bass">
+            <ListItemIcon>
+              <AccountCircle />
+            </ListItemIcon>
+            <ListItemText primary="Bass Guitars" />
+          </ListItemButton>
+          <ListItemButton component={Link} to="/drums">
+            <ListItemIcon>
+              <AccountCircle />
+            </ListItemIcon>
+            <ListItemText primary="Drums" />
+          </ListItemButton>
+
           {user && (
             <>
               <ListItemButton component={Link} to="/profile">

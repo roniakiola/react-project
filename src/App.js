@@ -13,6 +13,7 @@ import {ThemeProvider, createTheme} from '@mui/material/styles';
 import Upload from './views/Upload';
 import MyFiles from './views/MyFiles';
 import Modify from './views/Modify';
+import Guitars from './views/Guitars';
 
 const theme = createTheme(themeOptions);
 
@@ -27,6 +28,7 @@ const App = () => {
             <Routes>
               <Route path="/" element={<Login />} />
               <Route path="/home" element={<Home />} />
+              <Route path="/guitars" element={<Guitars />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/single" element={<Single />} />
               <Route path="/logout" element={<Logout />} />
