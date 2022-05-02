@@ -43,7 +43,7 @@ const Nav = () => {
 
   return (
     <Box>
-      <AppBar position="static">
+      <AppBar position="fixed">
         <Toolbar>
           <IconButton
             size="large"
@@ -66,6 +66,9 @@ const Nav = () => {
         </Toolbar>
       </AppBar>
       <Drawer
+        PaperProps={{
+          sx: {width: '90%'},
+        }}
         open={open}
         onClose={() => {
           setOpen(!open);
