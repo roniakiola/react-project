@@ -1,0 +1,12 @@
+.media-table {
+  display: flex;
+  flex-direction: column;
+}
+.container {
+  display: flex;
+  flex-direction: row;
+  border-bottom: 1px solid black;
+}
+.link {
+  align-self: center;
+}
