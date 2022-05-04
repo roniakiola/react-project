@@ -18,14 +18,20 @@ const fetchJson = async (url, options = {}) => {
   }
 };
 
-const useMedia = (showAllFiles, userId) => {
+const useMedia = (showAllFiles, userId, tag) => {
+  console.log(tag);
   const {update} = useContext(MediaContext);
   const [mediaArray, setMediaArray] = useState([]);
   const [loading, setLoading] = useState(false);
   const getMedia = async () => {
     try {
       setLoading(true);
-      let media = await useTag().getTag(appID);
+      let media;
+      if (tag) {
+        media = await useTag().getTag(tag);
+      } else {
+        media = await useTag().getTag(appID);
+      }
       // jos !showAllFiles, filteröi kirjautuneen
       // käyttäjän tiedostot media taulukkoon
       if (!showAllFiles) {

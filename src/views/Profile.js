@@ -15,6 +15,7 @@ import {
 } from '@mui/material';
 import {AccountCircle, Badge, ContactMail} from '@mui/icons-material';
 import BackButton from '../components/BackButton';
+import MediaTable from '../components/MediaTable';
 
 const Profile = () => {
   const {user} = useContext(MediaContext);
@@ -80,6 +81,7 @@ const Profile = () => {
           </CardContent>
         </Card>
       )}
+      <MediaTable allFiles={false} />
     </>
   );
 };
