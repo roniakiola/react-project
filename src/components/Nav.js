@@ -16,7 +16,10 @@ import {useContext, useEffect, useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import {MediaContext} from '../contexts/MediaContext';
 import {useUser} from '../hooks/ApiHooks';
-import {Home, AccountCircle, CloudUpload, Folder} from '@mui/icons-material';
+import {Home, AccountCircle, Close} from '@mui/icons-material';
+import {Stack} from '@mui/material';
+import MusicNoteIcon from '@mui/icons-material/MusicNote';
+import BackButton from './BackButton';
 
 const Nav = () => {
   const {user, setUser} = useContext(MediaContext);
@@ -44,9 +47,26 @@ const Nav = () => {
   return (
     <Box>
       <AppBar position="fixed">
-        <Toolbar>
+        <Toolbar disableGutters>
+          <IconButton>
+            <BackButton />
+          </IconButton>
+          <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
+            Soittimet.net
+          </Typography>
+          <Button
+            variant="contained"
+            component={Link}
+            to={user ? '/logout' : '/'}
+            style={{
+              backgroundColor: '#1394DF',
+              color: 'white',
+              marginRight: '4%',
+            }}
+          >
+            {user ? 'Logout' : 'Login'}
+          </Button>
           <IconButton
-            size="large"
             edge="start"
             color="inherit"
             aria-label="menu"
@@ -55,14 +75,8 @@ const Nav = () => {
               setOpen(!open);
             }}
           >
-            <MenuIcon />
+            <MenuIcon sx={{fontSize: '120%'}} />
           </IconButton>
-          <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
-            MyApp
-          </Typography>
-          <Button component={Link} to={user ? '/logout' : '/'} color="inherit">
-            {user ? 'Logout' : 'Login'}
-          </Button>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -79,54 +93,62 @@ const Nav = () => {
             setOpen(!open);
           }}
         >
-          <ListItemButton component={Link} to={'/home'}>
+          <ListItemButton
+            style={{
+              width: '3.5%',
+            }}
+          >
             <ListItemIcon>
-              <Home />
+              <Close fontSize="large" />
             </ListItemIcon>
-            <ListItemText primary="Home" />
           </ListItemButton>
-          <header>Categories</header>
-          <ListItemButton component={Link} to="/guitars">
-            <ListItemIcon>
-              <AccountCircle />
-            </ListItemIcon>
-            <ListItemText primary="Guitars" />
-          </ListItemButton>
-          <ListItemButton component={Link} to="/bass">
-            <ListItemIcon>
-              <AccountCircle />
-            </ListItemIcon>
-            <ListItemText primary="Bass Guitars" />
-          </ListItemButton>
-          <ListItemButton component={Link} to="/drums">
-            <ListItemIcon>
-              <AccountCircle />
-            </ListItemIcon>
-            <ListItemText primary="Drums" />
-          </ListItemButton>
-
-          {user && (
-            <>
-              <ListItemButton component={Link} to="/profile">
-                <ListItemIcon>
-                  <AccountCircle />
-                </ListItemIcon>
-                <ListItemText primary="Profile" />
-              </ListItemButton>
-              <ListItemButton component={Link} to="/upload">
-                <ListItemIcon>
-                  <CloudUpload />
-                </ListItemIcon>
-                <ListItemText primary="Upload" />
-              </ListItemButton>
-              <ListItemButton component={Link} to="/myfiles">
-                <ListItemIcon>
-                  <Folder />
-                </ListItemIcon>
-                <ListItemText primary="My Files" />
-              </ListItemButton>
-            </>
-          )}
+          <Stack spacing={2} paddingTop="20px">
+            <ListItemButton component={Link} to={'/home'}>
+              <ListItemIcon>
+                <Home fontSize="large" />
+              </ListItemIcon>
+              <ListItemText primary="Home" />
+            </ListItemButton>
+            {user && (
+              <>
+                <ListItemButton component={Link} to="/profile">
+                  <ListItemIcon>
+                    <AccountCircle fontSize="large" />
+                  </ListItemIcon>
+                  <ListItemText primary="Profile" />
+                </ListItemButton>
+              </>
+            )}
+            <ListItemText
+              primary="Categories"
+              disableTypography
+              style={{
+                fontSize: '200%',
+                paddingTop: '25px',
+                paddingBottom: '15px',
+                paddingLeft: '25px',
+                width: '50%',
+              }}
+            />
+            <ListItemButton component={Link} to="/guitars">
+              <ListItemIcon>
+                <MusicNoteIcon fontSize="large" />
+              </ListItemIcon>
+              <ListItemText primary="Guitars" />
+            </ListItemButton>
+            <ListItemButton component={Link} to="/bass">
+              <ListItemIcon>
+                <MusicNoteIcon fontSize="large" />
+              </ListItemIcon>
+              <ListItemText primary="Bass Guitars" />
+            </ListItemButton>
+            <ListItemButton component={Link} to="/drums">
+              <ListItemIcon>
+                <MusicNoteIcon fontSize="large" />
+              </ListItemIcon>
+              <ListItemText primary="Drums" />
+            </ListItemButton>
+          </Stack>
         </List>
       </Drawer>
     </Box>

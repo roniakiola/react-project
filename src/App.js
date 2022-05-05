@@ -14,6 +14,8 @@ import Upload from './views/Upload';
 import MyFiles from './views/MyFiles';
 import Modify from './views/Modify';
 import Guitars from './views/Guitars';
+import Drums from './views/Drums';
+import Bass from './views/Bass';
 
 const theme = createTheme(themeOptions);
 
@@ -24,11 +26,13 @@ const App = () => {
       <MediaProvider>
         <ThemeProvider theme={theme}>
           <Nav />
-          <Container maxWidth="lg">
+          <Container maxWidth="lg" style={{paddingTop: '75px'}}>
             <Routes>
               <Route path="/" element={<Login />} />
               <Route path="/home" element={<Home />} />
               <Route path="/guitars" element={<Guitars />} />
+              <Route path="/drums" element={<Drums />} />
+              <Route path="/bass" element={<Bass />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/single" element={<Single />} />
               <Route path="/logout" element={<Logout />} />

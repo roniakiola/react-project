@@ -2,14 +2,16 @@ import {
   Button,
   CircularProgress,
   Grid,
-  Slider,
   Typography,
+  InputLabel,
+  Select,
+  MenuItem,
 } from '@mui/material';
 import {useMedia, useTag} from '../hooks/ApiHooks';
 import {useNavigate} from 'react-router-dom';
 import useForm from '../hooks/FormHooks';
 import {useState, useEffect} from 'react';
-import {appID} from '../utils/variables';
+// import {appID} from '../utils/variables';
 import {ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
 import BackButton from '../components/BackButton';
 
@@ -19,13 +21,6 @@ const Upload = () => {
     title: '',
     description: '',
     file: null,
-  };
-
-  const filterarvot = {
-    brightness: 100,
-    contrast: 100,
-    saturation: 100,
-    sepia: 0,
   };
 
   const validators = {
@@ -45,21 +40,23 @@ const Upload = () => {
   const doUpload = async () => {
     try {
       console.log('doUpload');
-      // lisätään filtterit descriptioniin
       const desc = {
         description: inputs.description,
-        filters: filterInputs,
       };
       const token = localStorage.getItem('token');
       const formdata = new FormData();
       formdata.append('title', inputs.title);
       formdata.append('description', JSON.stringify(desc));
       formdata.append('file', inputs.file);
+      formdata.append('category', inputs.category);
+      const categoryTag = inputs.category;
+      console.log(categoryTag);
+      formdata.delete('category', inputs.category);
       const mediaData = await postMedia(formdata, token);
       const tagData = await postTag(
         {
           file_id: mediaData.file_id,
-          tag: appID,
+          tag: categoryTag,
         },
         token
       );
@@ -74,11 +71,6 @@ const Upload = () => {
     alkuarvot
   );
 
-  const {inputs: filterInputs, handleInputChange: handleSliderChange} = useForm(
-    null,
-    filterarvot
-  );
-
   useEffect(() => {
     if (inputs.file) {
       const reader = new FileReader();
@@ -88,8 +80,6 @@ const Upload = () => {
       reader.readAsDataURL(inputs.file);
     }
   }, [inputs.file]);
-
-  console.log(inputs, filterInputs);
 
   return (
     <>
@@ -121,6 +111,20 @@ const Upload = () => {
               validators={validators.description}
               errorMessages={errorMessages.description}
             />
+            <InputLabel id="demo-simple-select-label">Category</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              placeholder="category"
+              name="category"
+              value={inputs.category}
+              label="Category"
+              onChange={handleInputChange}
+            >
+              <MenuItem value={'guitar'}>Guitars</MenuItem>
+              <MenuItem value={'drums'}>Drums</MenuItem>
+              <MenuItem value={'bass'}>Bass</MenuItem>
+            </Select>
 
             <TextValidator
               fullWidth
@@ -147,71 +151,15 @@ const Upload = () => {
         </Grid>
       </Grid>
       {inputs.file && (
-        <Grid container>
-          <Grid item xs={12}>
+        <Grid container justifyContent="center">
+          <Grid item xs={12} lg={4}>
             <img
               style={{
                 width: '100%',
-                filter: `
-              brightness(${filterInputs.brightness}%)
-              contrast(${filterInputs.contrast}%)
-              saturate(${filterInputs.saturation}%)
-              sepia(${filterInputs.sepia}%)
-              `,
               }}
               src={preview}
               alt="preview"
             />
-          </Grid>
-          <Grid container>
-            <Grid item xs={12}>
-              <Typography>Brightness</Typography>
-              <Slider
-                name="brightness"
-                min={0}
-                max={200}
-                step={1}
-                valueLabelDisplay="on"
-                onChange={handleSliderChange}
-                value={filterInputs.brightness}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <Typography>Contrast</Typography>
-              <Slider
-                name="contrast"
-                min={0}
-                max={200}
-                step={1}
-                valueLabelDisplay="on"
-                onChange={handleSliderChange}
-                value={filterInputs.contrast}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <Typography>Saturation</Typography>
-              <Slider
-                name="saturation"
-                min={0}
-                max={200}
-                step={1}
-                valueLabelDisplay="on"
-                onChange={handleSliderChange}
-                value={filterInputs.saturation}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <Typography>Sepia</Typography>
-              <Slider
-                name="sepia"
-                min={0}
-                max={100}
-                step={1}
-                valueLabelDisplay="on"
-                onChange={handleSliderChange}
-                value={filterInputs.sepia}
-              />
-            </Grid>
           </Grid>
         </Grid>
       )}

@@ -1,6 +1,10 @@
 import MediaTable from '../components/MediaTable';
 
 const Guitars = () => {
-  return <MediaTable tag="guitar" />;
+  return (
+    <>
+      <MediaTable category="guitar" />;
+    </>
+  );
 };
 export default Guitars;

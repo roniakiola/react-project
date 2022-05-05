@@ -59,6 +59,14 @@ const Single = () => {
         {file.title}
       </Typography>
       <Card>
+        <List>
+          <ListItem>
+            <ListItemAvatar>
+              <Avatar variant={'circle'} src={avatar.filename} />
+            </ListItemAvatar>
+            <Typography variant="subtitle2">{file.username}</Typography>
+          </ListItem>
+        </List>
         <CardMedia
           component={file.media_type === 'image' ? 'img' : file.media_type}
           controls={true}
@@ -77,14 +85,6 @@ const Single = () => {
         />
         <CardContent>
           <Typography>{description}</Typography>
-          <List>
-            <ListItem>
-              <ListItemAvatar>
-                <Avatar variant={'circle'} src={avatar.filename} />
-              </ListItemAvatar>
-              <Typography variant="subtitle2">{file.user_id}</Typography>
-            </ListItem>
-          </List>
         </CardContent>
       </Card>
     </>

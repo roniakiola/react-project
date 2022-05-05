@@ -8,7 +8,6 @@ const Login = () => {
   return (
     <>
       {toggle ? <LoginForm /> : <RegisterForm setToggle={setToggle} />}
-      OR
       <Button
         fullWidth
         color="primary"

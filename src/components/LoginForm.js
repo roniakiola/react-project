@@ -57,9 +57,15 @@ const LoginForm = () => {
             onChange={handleInputChange}
             value={inputs.password}
           />
-          <Button fullWidth color="primary" type="submit" variant="contained">
+          <Button
+            fullWidth
+            style={{backgroundColor: '#1394DF', color: 'white'}}
+            type="submit"
+            variant="contained"
+          >
             Login
           </Button>
+          <Typography paddingTop={8}>No account? Register Here!</Typography>
         </form>
       </Grid>
     </Grid>

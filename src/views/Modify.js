@@ -1,10 +1,4 @@
-import {
-  Button,
-  CircularProgress,
-  Grid,
-  Slider,
-  Typography,
-} from '@mui/material';
+import {Button, CircularProgress, Grid, Typography} from '@mui/material';
 import {useMedia} from '../hooks/ApiHooks';
 import {useNavigate, useLocation} from 'react-router-dom';
 import useForm from '../hooks/FormHooks';
@@ -16,7 +10,7 @@ import BackButton from '../components/BackButton';
 const Modify = () => {
   const location = useLocation();
   const file = location.state.file;
-  const {description, filters} = safeParseJson(file.description) || {
+  const {description} = safeParseJson(file.description) || {
     description: file.description,
     filters: {
       brightness: 100,
@@ -52,7 +46,6 @@ const Modify = () => {
       // lisätään filtterit descriptioniin
       const desc = {
         description: inputs.description,
-        filters: filterInputs,
       };
       // tee sopiva objekti lähetettäväksi
       const data = {
@@ -72,13 +65,6 @@ const Modify = () => {
     doModify,
     alkuarvot
   );
-
-  const {inputs: filterInputs, handleInputChange: handleSliderChange} = useForm(
-    null,
-    filters
-  );
-
-  console.log(inputs, filterInputs);
 
   return (
     <>
@@ -132,66 +118,10 @@ const Modify = () => {
             <img
               style={{
                 width: '100%',
-                filter: `
-              brightness(${filterInputs.brightness}%)
-              contrast(${filterInputs.contrast}%)
-              saturate(${filterInputs.saturation}%)
-              sepia(${filterInputs.sepia}%)
-              `,
               }}
               src={mediaUrl + file.filename}
               alt="preview"
             />
-          </Grid>
-          <Grid container>
-            <Grid item xs={12}>
-              <Typography>Brightness</Typography>
-              <Slider
-                name="brightness"
-                min={0}
-                max={200}
-                step={1}
-                valueLabelDisplay="on"
-                onChange={handleSliderChange}
-                value={filterInputs.brightness}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <Typography>Contrast</Typography>
-              <Slider
-                name="contrast"
-                min={0}
-                max={200}
-                step={1}
-                valueLabelDisplay="on"
-                onChange={handleSliderChange}
-                value={filterInputs.contrast}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <Typography>Saturation</Typography>
-              <Slider
-                name="saturation"
-                min={0}
-                max={200}
-                step={1}
-                valueLabelDisplay="on"
-                onChange={handleSliderChange}
-                value={filterInputs.saturation}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <Typography>Sepia</Typography>
-              <Slider
-                name="sepia"
-                min={0}
-                max={100}
-                step={1}
-                valueLabelDisplay="on"
-                onChange={handleSliderChange}
-                value={filterInputs.sepia}
-              />
-            </Grid>
           </Grid>
         </Grid>
       )}

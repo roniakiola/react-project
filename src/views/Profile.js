@@ -14,7 +14,6 @@ import {
   Typography,
 } from '@mui/material';
 import {AccountCircle, Badge, ContactMail} from '@mui/icons-material';
-import BackButton from '../components/BackButton';
 import MediaTable from '../components/MediaTable';
 
 const Profile = () => {
@@ -39,7 +38,6 @@ const Profile = () => {
 
   return (
     <>
-      <BackButton />
       <Typography component="h1" variant="h2">
         Profile
       </Typography>
@@ -81,7 +79,7 @@ const Profile = () => {
           </CardContent>
         </Card>
       )}
-      <MediaTable allFiles={false} />
+      <MediaTable category="profile" />
     </>
   );
 };
