@@ -3,7 +3,6 @@ import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
 import {Grid, Typography, InputLabel, Select, MenuItem} from '@mui/material';
 import {useMedia, useTag} from '../hooks/ApiHooks';
 import {useNavigate} from 'react-router-dom';
@@ -11,6 +10,7 @@ import useForm from '../hooks/FormHooks';
 import {useState, useEffect} from 'react';
 // import {appID} from '../utils/variables';
 import {ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
+import SellIcon from '@mui/icons-material/Sell';
 
 export default function FormDialog() {
   const [open, setOpen] = React.useState(false);
@@ -90,16 +90,22 @@ export default function FormDialog() {
 
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Open form dialog
+      <Button
+        variant="outlined"
+        onClick={handleClickOpen}
+        style={{
+          backgroundColor: '#1394DF',
+          color: 'white',
+        }}
+      >
+        New Sales Notice <SellIcon style={{marginLeft: '15px'}} />
       </Button>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Upload new Sales Notice!</DialogTitle>
         <DialogContent>
           <Grid container>
             <Grid item xs={12}>
               <Typography component="h1" variant="h2" gutterBottom>
-                Upload
+                New Sale
               </Typography>
             </Grid>
 
@@ -125,6 +131,7 @@ export default function FormDialog() {
                 />
                 <InputLabel id="demo-simple-select-label">Category</InputLabel>
                 <Select
+                  fullWidth
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
                   placeholder="category"
@@ -145,36 +152,46 @@ export default function FormDialog() {
                   accept="image/*, video/*, audio/*"
                   onChange={handleInputChange}
                 />
-                <Button
-                  fullWidth
-                  color="primary"
-                  type="submit"
-                  variant="contained"
-                  disabled={!inputs.file}
-                >
-                  Upload
-                </Button>
+                {inputs.file && (
+                  <Grid container justifyContent="center">
+                    <Grid item xs={12} lg={4}>
+                      <img
+                        style={{
+                          width: '100%',
+                        }}
+                        src={preview}
+                        alt="preview"
+                      />
+                    </Grid>
+                  </Grid>
+                )}
+                <DialogActions>
+                  <Button
+                    onClick={handleClose}
+                    color="error"
+                    variant="outlined"
+                    style={{border: '2px solid'}}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    fullWidth
+                    color="primary"
+                    type="submit"
+                    variant="contained"
+                    disabled={!inputs.file}
+                    style={{
+                      backgroundColor: '#1394DF',
+                      color: 'white',
+                    }}
+                  >
+                    Upload
+                  </Button>
+                </DialogActions>
               </ValidatorForm>
             </Grid>
           </Grid>
-          {inputs.file && (
-            <Grid container justifyContent="center">
-              <Grid item xs={12} lg={4}>
-                <img
-                  style={{
-                    width: '100%',
-                  }}
-                  src={preview}
-                  alt="preview"
-                />
-              </Grid>
-            </Grid>
-          )}
         </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClose}>Subscribe</Button>
-        </DialogActions>
       </Dialog>
     </div>
   );
