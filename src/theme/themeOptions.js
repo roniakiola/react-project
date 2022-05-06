@@ -2,23 +2,14 @@ const themeOptions = {
   palette: {
     type: 'light',
     primary: {
-      main: '#00104a',
+      main: '#B1DEF8',
     },
     secondary: {
-      main: '#d60202',
-    },
-  },
-  typography: {
-    fontFamily: 'Lato',
-    body1: {
-      fontFamily: 'Droid Sans',
-    },
-    body2: {
-      fontFamily: 'Droid Sans',
+      main: '#f8cbb1',
     },
   },
   shape: {
-    borderRadius: 16,
+    borderRadius: 5,
   },
 };
 

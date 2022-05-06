@@ -1,7 +1,7 @@
 // TODO: add necessary imports
 import {useContext, useEffect, useState} from 'react';
 import {MediaContext} from '../contexts/MediaContext';
-import {appID, baseUrl} from '../utils/variables';
+import {baseUrl} from '../utils/variables';
 
 const fetchJson = async (url, options = {}) => {
   try {
@@ -18,29 +18,47 @@ const fetchJson = async (url, options = {}) => {
   }
 };
 
-const useMedia = (showAllFiles, userId) => {
+const useMedia = (userId, category) => {
   const {update} = useContext(MediaContext);
   const [mediaArray, setMediaArray] = useState([]);
   const [loading, setLoading] = useState(false);
   const getMedia = async () => {
     try {
       setLoading(true);
-      let media = await useTag().getTag(appID);
-      // jos !showAllFiles, filteröi kirjautuneen
-      // käyttäjän tiedostot media taulukkoon
-      if (!showAllFiles) {
-        media = media.filter((file) => file.user_id === userId);
+      let media;
+      if (category === 'profile') {
+        const fetchOptions = {
+          method: 'GET',
+          headers: {
+            'x-access-token': localStorage.getItem('token'),
+          },
+        };
+        media = await fetchJson(baseUrl + 'media/user', fetchOptions);
+      } else {
+        media = await useTag().getTag(category);
       }
-
       const allFiles = await Promise.all(
         media.map(async (file) => {
-          return await fetchJson(`${baseUrl}media/${file.file_id}`);
+          // Purukumia: tietokanta vaatii tokenin username-hakua varten - tehdään näin niin saadaan kirjautumattakin sisältöä näkyviin
+          if (userId) {
+            const fileOwner = await getNameOfUser(
+              file.file_id,
+              localStorage.getItem('token')
+            );
+            const getFile = await fetchJson(`${baseUrl}media/${file.file_id}`);
+            Object.assign(getFile, {username: fileOwner});
+            return getFile;
+          } else {
+            const getFile = await fetchJson(`${baseUrl}media/${file.file_id}`);
+            return getFile;
+          }
         })
       );
 
       setMediaArray(allFiles);
     } catch (err) {
-      alert(err.message);
+      // BUGI: Joku bugi heittää alerttia refreshillä, tsekkaa safeJsonParse myöhemmin. Ei kuitenkaan aitoa vaikutusta sovelluksen toimintaan.
+      // alert(err.message);
     } finally {
       setLoading(false);
     }
@@ -171,5 +189,23 @@ const useTag = () => {
   };
   return {getTag, postTag};
 };
+const getNameOfUser = async (fileId, token) => {
+  const fetchOptions = {
+    method: 'GET',
+    headers: {
+      'x-access-token': token,
+    },
+  };
+  const fileInfo = await fetchJson(baseUrl + 'media/' + fileId, fetchOptions);
+  // tiedoston user_id
+  const fileOwnerId = fileInfo.user_id;
+  // user_id:llä username
+  const userInfo = await fetchJson(
+    baseUrl + 'users/' + fileOwnerId,
+    fetchOptions
+  );
+  const usrName = userInfo.username;
+  return usrName;
+};
 
-export {useMedia, useLogin, useUser, useTag};
+export {useMedia, useLogin, useUser, useTag, getNameOfUser};

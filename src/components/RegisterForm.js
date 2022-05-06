@@ -143,9 +143,15 @@ const RegisterForm = ({setToggle}) => {
             validators={validators.full_name}
             errorMessages={errorMessages.full_name}
           />
-          <Button fullWidth color="primary" type="submit" variant="contained">
-            Register
+          <Button
+            fullWidth
+            style={{backgroundColor: '#1394DF', color: 'white'}}
+            type="submit"
+            variant="contained"
+          >
+            Register Now!
           </Button>
+          <Typography paddingTop={10}>Back to Login</Typography>
         </ValidatorForm>
       </Grid>
     </Grid>

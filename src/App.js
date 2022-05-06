@@ -10,9 +10,10 @@ import Profile from './views/Profile';
 import Single from './views/Single';
 import {themeOptions} from './theme/themeOptions';
 import {ThemeProvider, createTheme} from '@mui/material/styles';
-import Upload from './views/Upload';
-import MyFiles from './views/MyFiles';
 import Modify from './views/Modify';
+import Guitars from './views/Guitars';
+import Drums from './views/Drums';
+import Bass from './views/Bass';
 
 const theme = createTheme(themeOptions);
 
@@ -22,16 +23,17 @@ const App = () => {
     <Router basename={process.env.PUBLIC_URL}>
       <MediaProvider>
         <ThemeProvider theme={theme}>
-          <Container maxWidth="lg">
-            <Nav />
+          <Nav />
+          <Container maxWidth="lg" style={{paddingTop: '75px'}}>
             <Routes>
               <Route path="/" element={<Login />} />
               <Route path="/home" element={<Home />} />
+              <Route path="/guitars" element={<Guitars />} />
+              <Route path="/drums" element={<Drums />} />
+              <Route path="/bass" element={<Bass />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/single" element={<Single />} />
               <Route path="/logout" element={<Logout />} />
-              <Route path="/upload" element={<Upload />} />
-              <Route path="/myfiles" element={<MyFiles />} />
               <Route path="/modify" element={<Modify />} />
             </Routes>
           </Container>

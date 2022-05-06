@@ -11,7 +11,6 @@ import {
   Avatar,
 } from '@mui/material';
 import {safeParseJson} from '../utils/functions';
-import BackButton from '../components/BackButton';
 import {useEffect, useState} from 'react';
 import {useTag} from '../hooks/ApiHooks';
 
@@ -20,7 +19,7 @@ const Single = () => {
   const location = useLocation();
   console.log(location);
   const file = location.state.file;
-  const {description, filters} = safeParseJson(file.description) || {
+  const {description} = safeParseJson(file.description) || {
     description: file.description,
     filters: {
       brightness: 100,
@@ -54,11 +53,18 @@ const Single = () => {
 
   return (
     <>
-      <BackButton />
       <Typography component="h1" variant="h2">
         {file.title}
       </Typography>
       <Card>
+        <List>
+          <ListItem>
+            <ListItemAvatar>
+              <Avatar variant={'circle'} src={avatar.filename} />
+            </ListItemAvatar>
+            <Typography variant="subtitle2">{file.username}</Typography>
+          </ListItem>
+        </List>
         <CardMedia
           component={file.media_type === 'image' ? 'img' : file.media_type}
           controls={true}
@@ -67,24 +73,10 @@ const Single = () => {
           alt={file.title}
           sx={{
             height: '60vh',
-            filter: `
-          brightness(${filters.brightness}%)
-          contrast(${filters.contrast}%)
-          saturate(${filters.saturation}%)
-          sepia(${filters.sepia}%)
-          `,
           }}
         />
         <CardContent>
           <Typography>{description}</Typography>
-          <List>
-            <ListItem>
-              <ListItemAvatar>
-                <Avatar variant={'circle'} src={avatar.filename} />
-              </ListItemAvatar>
-              <Typography variant="subtitle2">{file.user_id}</Typography>
-            </ListItem>
-          </List>
         </CardContent>
       </Card>
     </>

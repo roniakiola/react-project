@@ -6,12 +6,12 @@ const BackButton = () => {
   const navigate = useNavigate();
   return (
     <Button
-      startIcon={<ArrowBack />}
+      style={{color: 'black'}}
       onClick={() => {
         navigate(-1);
       }}
     >
-      Back
+      <ArrowBack sx={{fontSize: '220%'}} />
     </Button>
   );
 };

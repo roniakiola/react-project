@@ -1,10 +1,17 @@
-import {Button, ImageListItem, ImageListItemBar} from '@mui/material';
+import {
+  IconButton,
+  Button,
+  ImageListItem,
+  ImageListItemBar,
+} from '@mui/material';
 import PropTypes from 'prop-types';
 import {useContext} from 'react';
 import {MediaContext} from '../contexts/MediaContext';
 import {Link} from 'react-router-dom';
 import {mediaUrl} from '../utils/variables';
 import {safeParseJson} from '../utils/functions';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 
 const MediaRow = ({file, userId, deleteMedia}) => {
   const {update, setUpdate} = useContext(MediaContext);
@@ -69,11 +76,15 @@ const MediaRow = ({file, userId, deleteMedia}) => {
                   to={'/modify'}
                   state={{file}}
                 >
-                  Edit
+                  <EditIcon />
                 </Button>
-                <Button variant="contained" onClick={doDelete}>
-                  Delete
-                </Button>
+                <IconButton
+                  aria-label="delete"
+                  variant="contained"
+                  onClick={doDelete}
+                >
+                  <DeleteIcon />
+                </IconButton>
               </>
             )}
           </>
